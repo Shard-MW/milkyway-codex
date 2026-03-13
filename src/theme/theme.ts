@@ -81,6 +81,10 @@ export const theme = {
     width: '280px',
     collapsedWidth: '64px',
   },
+  breakpoints: {
+    mobile: '768px',
+    tablet: '1024px',
+  },
 } as const
 
 export type Theme = typeof theme

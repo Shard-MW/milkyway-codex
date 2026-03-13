@@ -3,6 +3,10 @@ import { theme } from '../../theme/theme.ts'
 
 export const DetailContainer = styled.div<{ $maxWidth?: string }>`
   max-width: ${(p) => p.$maxWidth ?? '860px'};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    max-width: 100%;
+  }
 `
 
 export const BackLink = styled.button`
@@ -32,6 +36,11 @@ export const DetailName = styled.h1<{ $color?: string }>`
   font-size: 28px;
   color: ${(p) => p.$color ?? theme.colors.primary};
   margin-bottom: 10px;
+  word-break: break-word;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 22px;
+  }
 `
 
 export const Badges = styled.div`

@@ -6,6 +6,11 @@ export const ListPageContainer = styled.div`
   flex-direction: column;
   height: calc(100vh - 48px);
   gap: 16px;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    height: calc(100dvh - 48px - 48px);
+    gap: 12px;
+  }
 `
 
 export const ListHeader = styled.div`
@@ -16,11 +21,19 @@ export const ListHeader = styled.div`
 
 export const ListTitle = styled.h1`
   font-size: 24px;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 20px;
+  }
 `
 
 export const ListCount = styled.span`
   font-size: 14px;
   color: ${theme.colors.textMuted};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 12px;
+  }
 `
 
 export const Filters = styled.div`
@@ -28,6 +41,10 @@ export const Filters = styled.div`
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    gap: 8px;
+  }
 `
 
 export const FilterGroup = styled.div`
@@ -72,5 +89,10 @@ export const Row = styled.div`
 
   &:hover {
     background: ${theme.colors.bgElevated};
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 0 10px;
+    gap: 8px;
   }
 `

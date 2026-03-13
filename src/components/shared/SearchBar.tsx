@@ -89,6 +89,7 @@ const SearchIcon = styled(Search)`
 
 const Input = styled.input`
   flex: 1;
+  min-width: 0;
   background: none;
   border: none;
   outline: none;
@@ -100,6 +101,11 @@ const Input = styled.input`
   &::placeholder {
     color: ${theme.colors.textMuted};
     opacity: 0.6;
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 14px;
+    padding: 10px 10px 10px 40px;
   }
 `
 
@@ -138,4 +144,8 @@ const Shortcut = styled.kbd`
   padding: 2px 6px;
   margin-right: 10px;
   opacity: 0.6;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    display: none;
+  }
 `

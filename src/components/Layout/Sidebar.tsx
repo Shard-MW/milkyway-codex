@@ -39,7 +39,11 @@ const NAV_SECTIONS = [
   },
 ] as const
 
-export const Sidebar = (): ReactNode => {
+interface SidebarProps {
+  onNavigate?: () => void
+}
+
+export const Sidebar = ({ onNavigate }: SidebarProps): ReactNode => {
   const { mode, toggle } = useThemeMode()
 
   return (
@@ -64,7 +68,7 @@ export const Sidebar = (): ReactNode => {
             <NavList>
               {section.items.map(({ to, icon: Icon, label }) => (
                 <NavItem key={to}>
-                  <StyledNavLink to={to} end={to === '/'}>
+                  <StyledNavLink to={to} end={to === '/'} onClick={onNavigate}>
                     <Icon size={16} />
                     <span>{label}</span>
                   </StyledNavLink>

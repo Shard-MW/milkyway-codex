@@ -168,6 +168,10 @@ const Container = styled.div`
 const Hero = styled.div`
   text-align: center;
   padding: 48px 0 32px;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 24px 0 20px;
+  }
 `
 
 const HeroIcon = styled.div`
@@ -178,6 +182,10 @@ const HeroTitle = styled.h1`
   font-size: 36px;
   letter-spacing: 2px;
   margin-bottom: 8px;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 26px;
+  }
 `
 
 const HeroSubtitle = styled.p`
@@ -287,6 +295,12 @@ const StatsGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin: 32px 0;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin: 20px 0;
+  }
 `
 
 const StatCard = styled.button`
@@ -306,6 +320,11 @@ const StatCard = styled.button`
     border-color: ${theme.colors.primary};
     background: ${theme.colors.bgElevated};
     transform: translateY(-2px);
+  }
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 14px 10px;
+    gap: 6px;
   }
 `
 
@@ -329,6 +348,10 @@ const InfoCard = styled.div`
   border: 1px solid ${theme.colors.border};
   border-radius: ${theme.radius.lg};
   padding: 24px;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    padding: 16px;
+  }
 `
 
 const InfoTitle = styled.h2`

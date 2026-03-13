@@ -5,6 +5,12 @@ export const DataTable = styled.table`
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
+  display: block;
+  overflow-x: auto;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    font-size: 12px;
+  }
 
   th {
     text-align: left;

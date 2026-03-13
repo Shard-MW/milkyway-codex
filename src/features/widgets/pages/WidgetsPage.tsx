@@ -190,6 +190,11 @@ const WidgetName = styled.span`
   color: ${theme.colors.luaType};
   min-width: 240px;
   white-space: nowrap;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    min-width: 0;
+    flex: 1;
+  }
 `
 
 const MethodWidget = styled.span`
@@ -206,6 +211,10 @@ const WidgetMeta = styled.div`
   gap: 4px;
   min-width: 160px;
   white-space: nowrap;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    display: none;
+  }
 `
 
 const MethodCountBadge = styled.span`
@@ -241,6 +250,10 @@ const WidgetDesc = styled.span`
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    display: none;
+  }
 `
 
 const CategoryBadge = styled.span<{ $category: string }>`

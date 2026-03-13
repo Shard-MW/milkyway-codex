@@ -148,7 +148,18 @@ const ApiListPage = (): ReactNode => {
       />
 
       <Filters>
-        <FilterGroup>
+        <CategorySelect
+          value={activeCategory}
+          onChange={(e) => handleCategoryChange(e.target.value)}
+        >
+          <option value="all">All categories</option>
+          {API_CATEGORIES.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat.replace(/ functions$/i, '').replace(/ actions$/i, '')}
+            </option>
+          ))}
+        </CategorySelect>
+        <DesktopFilterGroup>
           <FilterButton
             $active={activeCategory === 'all'}
             onClick={() => handleCategoryChange('all')}
@@ -164,7 +175,7 @@ const ApiListPage = (): ReactNode => {
               {cat.replace(/ functions$/i, '').replace(/ actions$/i, '')}
             </FilterButton>
           ))}
-        </FilterGroup>
+        </DesktopFilterGroup>
         <FlagToggleButton
           $active={showFlagPanel || activeFlags.size > 0}
           onClick={() => setShowFlagPanel((p) => !p)}
@@ -212,6 +223,29 @@ const ApiListPage = (): ReactNode => {
 
 export default ApiListPage
 
+const CategorySelect = styled.select`
+  display: none;
+  font-family: ${theme.fonts.code};
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: ${theme.radius.sm};
+  border: 1px solid ${theme.colors.border};
+  background: ${theme.colors.bgInput};
+  color: ${theme.colors.textBright};
+  flex: 1;
+  min-width: 0;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    display: block;
+  }
+`
+
+const DesktopFilterGroup = styled(FilterGroup)`
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    display: none;
+  }
+`
+
 const FlagToggleButton = styled.button<{ $active: boolean }>`
   display: flex;
   align-items: center;
@@ -249,6 +283,12 @@ const FlagPanel = styled.div`
   background: ${theme.colors.bgCard};
   border: 1px solid ${theme.colors.border};
   border-radius: ${theme.radius.md};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 10px;
+  }
 `
 
 const FlagChips = styled.div`
@@ -297,12 +337,23 @@ const FnName = styled.span`
   color: ${theme.colors.primary};
   min-width: 240px;
   white-space: nowrap;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `
 
 const FnBadges = styled.div`
   display: flex;
   gap: 4px;
   min-width: 120px;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    display: none;
+  }
 `
 
 const FnDesc = styled.span`
@@ -313,6 +364,10 @@ const FnDesc = styled.span`
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    display: none;
+  }
 `
 
 const CategoryBadge = styled.span`
@@ -323,4 +378,8 @@ const CategoryBadge = styled.span`
   white-space: nowrap;
   background: rgba(56, 189, 248, 0.1);
   color: ${theme.colors.primary};
+
+  @media (max-width: ${theme.breakpoints.mobile}) {
+    display: none;
+  }
 `
