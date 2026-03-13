@@ -57,7 +57,7 @@ const HomePage = (): ReactNode => {
         </HeroIcon>
         <HeroTitle>MilkyWay Codex</HeroTitle>
         <HeroSubtitle>
-          Complete API reference for World of Warcraft 3.3.5a (Build 12340)
+          Open-source API reference for WoW 3.3.5a modding (Build 12340)
         </HeroSubtitle>
         <SearchContainer>
           <SearchBar
@@ -105,13 +105,17 @@ const HomePage = (): ReactNode => {
         <InfoCard>
           <InfoTitle>About this Reference</InfoTitle>
           <InfoText>
-            This documentation covers the complete Lua API available in the World of Warcraft 3.3.5a
-            (WotLK) client. Functions, events, widgets, and data types have been extracted directly
-            from the client binary (build 12340) and cross-referenced with historical documentation.
+            An open-source project built for the WoW 3.3.5a modding community. All data has been
+            extracted from the client binary (build 12340), scraped from archived documentation,
+            and cross-referenced across multiple sources to provide the most complete reference available.
           </InfoText>
           <InfoText>
             <strong>Protected functions</strong> require a hardware event (mouse click, key press) to execute.
             They cannot be called programmatically from addon code without user interaction.
+          </InfoText>
+          <InfoText>
+            Found something wrong or missing? Contributions are welcome on{' '}
+            <a href="https://github.com/Shard-MW/milkyway-codex" target="_blank" rel="noopener noreferrer">GitHub</a>.
           </InfoText>
         </InfoCard>
       </InfoSection>
@@ -287,6 +291,14 @@ const InfoText = styled.p`
 
   strong {
     color: ${theme.colors.text};
+  }
+
+  a {
+    color: ${theme.colors.primary};
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &:last-child {
