@@ -6,7 +6,6 @@ import {
   Zap,
   Database,
   Layout as LayoutIcon,
-  BookOpen,
   Sun,
   Moon,
   Terminal,
@@ -15,6 +14,7 @@ import {
 import styled from 'styled-components'
 import { theme } from '../../theme/theme.ts'
 import { useThemeMode } from '../../hooks/use-theme-mode.hook.ts'
+import { CodexIcon } from '../shared/CodexIcon.tsx'
 
 const NAV_SECTIONS = [
   {
@@ -47,7 +47,7 @@ export const Sidebar = (): ReactNode => {
       <LogoSection>
         <LogoRow>
           <LogoTitle>
-            <BookOpen size={22} color={theme.colors.primary} />
+            <CodexIcon size={22} />
             <span>Codex</span>
           </LogoTitle>
           <ThemeToggle onClick={toggle} aria-label="Toggle theme">

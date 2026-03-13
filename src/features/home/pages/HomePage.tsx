@@ -1,9 +1,10 @@
 import { type ReactNode, useState, useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Code2, Zap, Database, Layout as LayoutIcon, Shield, BookOpen, Terminal } from 'lucide-react'
+import { Code2, Zap, Database, Layout as LayoutIcon, Shield, Terminal } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { SearchBar } from '../../../components/shared/SearchBar.tsx'
+import { CodexIcon } from '../../../components/shared/CodexIcon.tsx'
 import { API_FUNCTIONS } from '../../../data/api-functions.ts'
 import { EVENTS } from '../../../data/events.ts'
 import { DATA_TYPES } from '../../../data/data-types.ts'
@@ -82,7 +83,7 @@ const HomePage = (): ReactNode => {
     <Container>
       <Hero>
         <HeroIcon>
-          <BookOpen size={40} color={theme.colors.primary} />
+          <CodexIcon size={40} />
         </HeroIcon>
         <HeroTitle>MilkyWay Codex</HeroTitle>
         <HeroSubtitle>
