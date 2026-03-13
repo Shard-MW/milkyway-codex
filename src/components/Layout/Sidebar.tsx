@@ -1,0 +1,164 @@
+import type { ReactNode } from 'react'
+import { NavLink } from 'react-router-dom'
+import {
+  Home,
+  Code2,
+  Zap,
+  Database,
+  Layout as LayoutIcon,
+  BookOpen,
+} from 'lucide-react'
+import styled from 'styled-components'
+import { theme } from '../../theme/theme.ts'
+
+const NAV_SECTIONS = [
+  {
+    title: null,
+    items: [{ to: '/', icon: Home, label: 'Home' }],
+  },
+  {
+    title: 'Reference',
+    items: [
+      { to: '/api', icon: Code2, label: 'API Functions' },
+      { to: '/events', icon: Zap, label: 'Events' },
+      { to: '/widgets', icon: LayoutIcon, label: 'Widgets' },
+      { to: '/data-types', icon: Database, label: 'Data Types' },
+    ],
+  },
+] as const
+
+export const Sidebar = (): ReactNode => {
+  return (
+    <Nav>
+      <LogoSection>
+        <LogoTitle>
+          <BookOpen size={22} color={theme.colors.primary} />
+          <span>Codex</span>
+        </LogoTitle>
+        <LogoSub>WoW 3.3.5a Reference</LogoSub>
+      </LogoSection>
+      <NavContent>
+        {NAV_SECTIONS.map((section, i) => (
+          <Section key={i}>
+            {section.title && <SectionTitle>{section.title}</SectionTitle>}
+            <NavList>
+              {section.items.map(({ to, icon: Icon, label }) => (
+                <NavItem key={to}>
+                  <StyledNavLink to={to} end={to === '/'}>
+                    <Icon size={16} />
+                    <span>{label}</span>
+                  </StyledNavLink>
+                </NavItem>
+              ))}
+            </NavList>
+          </Section>
+        ))}
+      </NavContent>
+      <Footer>
+        <FooterText>MilkyWay Codex v1.0</FooterText>
+        <FooterText>Client Build 12340</FooterText>
+      </Footer>
+    </Nav>
+  )
+}
+
+const Nav = styled.nav`
+  width: ${theme.sidebar.width};
+  min-width: ${theme.sidebar.width};
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: ${theme.colors.bgCard};
+  border-right: 1px solid ${theme.colors.border};
+`
+
+const LogoSection = styled.div`
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid ${theme.colors.border};
+`
+
+const LogoTitle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: ${theme.fonts.heading};
+  font-size: 20px;
+  color: ${theme.colors.textBright};
+  letter-spacing: 1px;
+`
+
+const LogoSub = styled.p`
+  font-size: 11px;
+  color: ${theme.colors.textMuted};
+  margin-top: 4px;
+  padding-left: 32px;
+`
+
+const NavContent = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+`
+
+const Section = styled.div`
+  padding: 4px 8px;
+`
+
+const SectionTitle = styled.h3`
+  font-family: ${theme.fonts.heading};
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: ${theme.colors.textMuted};
+  padding: 12px 12px 6px;
+  opacity: 0.6;
+`
+
+const NavList = styled.ul`
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`
+
+const NavItem = styled.li``
+
+const StyledNavLink = styled(NavLink)`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  font-family: ${theme.fonts.heading};
+  font-size: 13px;
+  letter-spacing: 0.3px;
+  color: ${theme.colors.textMuted};
+  border-radius: ${theme.radius.md};
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: ${theme.colors.textBright};
+    background: ${theme.colors.bgElevated};
+  }
+
+  &.active {
+    color: ${theme.colors.primary};
+    background: rgba(56, 189, 248, 0.08);
+    border-left: 3px solid ${theme.colors.primary};
+    padding-left: 9px;
+  }
+`
+
+const Footer = styled.div`
+  padding: 12px 16px;
+  border-top: 1px solid ${theme.colors.border};
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`
+
+const FooterText = styled.p`
+  font-size: 10px;
+  color: ${theme.colors.textMuted};
+  opacity: 0.5;
+  text-align: center;
+`
