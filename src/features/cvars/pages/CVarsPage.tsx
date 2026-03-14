@@ -102,7 +102,7 @@ const CVarsPage = (): ReactNode => {
             return (
               <Row style={style} $even={index % 2 === 0}>
                 <CellName>{c.name}</CellName>
-                <CellDefault>{c.description || '—'}</CellDefault>
+                <CellDefault>{c.defaultValue || '—'}</CellDefault>
                 <CellCategory>{c.category}</CellCategory>
               </Row>
             )
