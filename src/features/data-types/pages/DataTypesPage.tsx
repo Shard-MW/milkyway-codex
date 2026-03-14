@@ -1,4 +1,4 @@
-import { type ReactNode, useState, useMemo, useEffect } from 'react'
+import { type ReactNode, useState, useMemo, useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { ExternalLink, BookOpen } from 'lucide-react'
 import styled from 'styled-components'
@@ -14,12 +14,7 @@ const DataTypesPage = (): ReactNode => {
   const location = useLocation()
   const [query, setQuery] = useState('')
 
-  useEffect(() => {
-    const hash = location.hash.slice(1)
-    if (hash) {
-      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
-  }, [location.hash])
+  const typesListRef = useRef<HTMLDivElement>(null)
 
   const filtered = useMemo(() => {
     if (query.length === 0) return DATA_TYPES
@@ -29,6 +24,40 @@ const DataTypesPage = (): ReactNode => {
       return terms.every((term) => text.includes(term))
     })
   }, [query])
+
+  useEffect(() => {
+    const hash = location.hash.slice(1)
+    if (hash) {
+      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [location.hash])
+
+  // Update URL hash based on which TypeCard is visible
+  useEffect(() => {
+    const container = typesListRef.current
+    if (!container) return
+
+    const cards = container.querySelectorAll<HTMLElement>('[id]')
+    if (cards.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && entry.target.id) {
+            const newHash = `#${entry.target.id}`
+            if (window.location.hash !== newHash) {
+              window.history.replaceState(null, '', newHash)
+            }
+            break
+          }
+        }
+      },
+      { threshold: 0.3 },
+    )
+
+    cards.forEach((card) => observer.observe(card))
+    return () => observer.disconnect()
+  }, [filtered])
 
   return (
     <Container>
@@ -44,7 +73,7 @@ const DataTypesPage = (): ReactNode => {
         resultCount={query.length > 0 ? filtered.length : undefined}
       />
 
-      <TypesList>
+      <TypesList ref={typesListRef}>
         {filtered.map((t) => (
           <TypeCard key={t.name} id={t.name}>
             <TypeName>{t.name}</TypeName>
