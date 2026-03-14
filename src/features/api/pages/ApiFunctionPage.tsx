@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { ArrowLeft, ExternalLink } from 'lucide-react'
+import { ArrowLeft, ExternalLink, BookOpen } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { CodeBlock } from '../../../components/shared/CodeBlock.tsx'
@@ -18,6 +18,7 @@ import {
   SectionTitle,
   RelatedList,
   ExternalRef,
+  BookRefLink,
   NotFound,
 } from '../../../components/shared/DetailPage.tsx'
 import { LinkedDescription } from '../../../components/shared/LinkedDescription.tsx'
@@ -158,8 +159,8 @@ const ApiFunctionPage = (): ReactNode => {
         </Section>
       )}
 
-      {fn.documentationUrl && (
-        <Section>
+      <Section>
+        {fn.documentationUrl && (
           <ExternalRef
             href={fn.documentationUrl}
             target="_blank"
@@ -168,8 +169,14 @@ const ApiFunctionPage = (): ReactNode => {
             <ExternalLink size={14} />
             View on WoWProgramming (archived)
           </ExternalRef>
-        </Section>
-      )}
+        )}
+        {fn.bookPage && (
+          <BookRefLink href={`/book?page=${fn.bookPage}`}>
+            <BookOpen size={14} />
+            View in Reference Book (p.{fn.bookPage})
+          </BookRefLink>
+        )}
+      </Section>
     </DetailContainer>
   )
 }

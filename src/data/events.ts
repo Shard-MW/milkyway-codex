@@ -1885,6 +1885,7 @@ export const EVENTS: WowEvent[] = [
     related: ['COMBAT_LOG_EVENT_UNFILTERED'],
     patch: '3.3.5a',
     documentationUrl: 'https://web.archive.org/web/20090428113619/http://www.wowprogramming.com/docs/events/COMBAT_LOG_EVENT',
+    bookPage: 387,
   },
   {
     name: 'COMBAT_LOG_EVENT_UNFILTERED',
@@ -1904,6 +1905,7 @@ export const EVENTS: WowEvent[] = [
     related: ['COMBAT_LOG_EVENT'],
     patch: '3.3.5a',
     documentationUrl: 'https://web.archive.org/web/20111212183818/http://wowprogramming.com/docs/events/COMBAT_LOG_EVENT_UNFILTERED',
+    bookPage: 387,
   },
   {
     name: 'COMBAT_RATING_UPDATE',

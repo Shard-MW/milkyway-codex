@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { ArrowLeft, ExternalLink } from 'lucide-react'
+import { ArrowLeft, ExternalLink, BookOpen } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
 import { Tag } from '../../../components/shared/Tag.tsx'
@@ -15,6 +15,7 @@ import {
   SectionTitle,
   RelatedList,
   ExternalRef,
+  BookRefLink,
   PatchInfo,
   NotFound,
 } from '../../../components/shared/DetailPage.tsx'
@@ -98,8 +99,8 @@ const EventDetailPage = (): ReactNode => {
         </Section>
       )}
 
-      {evt.documentationUrl && (
-        <Section>
+      <Section>
+        {evt.documentationUrl && (
           <ExternalRef
             href={evt.documentationUrl}
             target="_blank"
@@ -108,8 +109,14 @@ const EventDetailPage = (): ReactNode => {
             <ExternalLink size={14} />
             View on WoWProgramming (archived)
           </ExternalRef>
-        </Section>
-      )}
+        )}
+        {evt.bookPage && (
+          <BookRefLink href={`/book?page=${evt.bookPage}`}>
+            <BookOpen size={14} />
+            View in Reference Book (p.{evt.bookPage})
+          </BookRefLink>
+        )}
+      </Section>
 
       <Section>
         <PatchInfo>Patch: {evt.patch}</PatchInfo>

@@ -90,6 +90,18 @@ export const PatchInfo = styled.span`
   color: ${theme.colors.textMuted};
 `
 
+export const BookRefLink = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: ${theme.colors.accent};
+
+  &:hover {
+    color: ${theme.colors.textBright};
+  }
+`
+
 export const NotFound = styled.div`
   text-align: center;
   padding: 48px;

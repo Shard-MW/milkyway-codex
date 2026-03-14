@@ -15,6 +15,7 @@ const WidgetsPage = lazy(() => import('./features/widgets/pages/WidgetsPage.tsx'
 const WidgetDetailPage = lazy(() => import('./features/widgets/pages/WidgetDetailPage.tsx'))
 const CVarsPage = lazy(() => import('./features/cvars/pages/CVarsPage.tsx'))
 const SecureTemplatesPage = lazy(() => import('./features/secure-templates/pages/SecureTemplatesPage.tsx'))
+const BookPage = lazy(() => import('./features/book/pages/BookPage.tsx'))
 
 export const App = (): ReactNode => {
   return (
@@ -34,6 +35,7 @@ export const App = (): ReactNode => {
               <Route path="widgets/:widgetName" element={<WidgetDetailPage />} />
               <Route path="cvars" element={<CVarsPage />} />
               <Route path="secure-templates" element={<SecureTemplatesPage />} />
+              <Route path="book" element={<BookPage />} />
             </Route>
           </Routes>
         </Suspense>

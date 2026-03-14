@@ -33,6 +33,7 @@ export interface ApiFunction {
   patch: string
   documentationUrl: string
   memoryAddress?: string
+  bookPage?: number
 }
 
 export interface WowEvent {
@@ -43,6 +44,7 @@ export interface WowEvent {
   related: string[]
   patch: string
   documentationUrl: string
+  bookPage?: number
 }
 
 export interface DataType {
