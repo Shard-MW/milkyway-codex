@@ -1,4 +1,5 @@
-import { type ReactNode, useState, useMemo } from 'react'
+import { type ReactNode, useState, useMemo, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { ExternalLink, BookOpen } from 'lucide-react'
 import styled from 'styled-components'
 import { theme } from '../../../theme/theme.ts'
@@ -11,7 +12,15 @@ import { LinkedText } from '../../../components/shared/LinkedText.tsx'
 import { SECURE_TEMPLATES } from '../../../data/secure-templates.ts'
 
 const SecureTemplatesPage = (): ReactNode => {
+  const location = useLocation()
   const [query, setQuery] = useState('')
+
+  useEffect(() => {
+    const hash = location.hash.slice(1)
+    if (hash) {
+      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [location.hash])
 
   const filtered = useMemo(() => {
     if (query.length === 0) return SECURE_TEMPLATES
