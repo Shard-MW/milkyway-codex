@@ -46391,7 +46391,7 @@ print("name:", name, "rank:", rank, "icon:", icon, "count:", count, "dispelType:
   {
     name: 'UnitBuff',
     description: 'Returns information about a buff on a unit. name, rank, icon, count, dispelType, duration, expires, caster, i UnitBuff(“unit“, “name“ [, “rank“ [, “filter“]]) This function is an alias for UnitAura() with a built-in HELPFUL filter (which HARMFUL filter). cannot be removed or negated with the',
-    signature: 'name, rank, icon, count, dispelType, duration, expires, caster, isStealable = UnitBuff("unit", index [, "filter"]) or UnitBuff("unit", "name" [, "rank" [, "filter"]])',
+    signature: 'name, rank, icon, count, dispelType, duration, expires, caster, isStealable, shouldConsolidate, spellID = UnitBuff("unit", index [, "filter"]) or UnitBuff("unit", "name" [, "rank" [, "filter"]])',
     parameters: [
       { name: 'unit', type: 'string', description: 'A unit to query', optional: false },
       { name: 'index', type: 'number', description: 'Index of an aura to query', optional: false },
@@ -46409,10 +46409,12 @@ print("name:", name, "rank:", rank, "icon:", icon, "count:", count, "dispelType:
       { name: 'expires', type: 'number', description: 'Time at which the aura will expire; can be compared to <a href=’/docs/api/GetTime’>GetTime()</a> to determine time remaining' },
       { name: 'caster', type: 'string', description: 'Unit which applied the aura. If the aura was applied by a unit that does not have a token but is controlled by one that does (e.g. a totem or another player’s vehicle), returns the controlling unit. Returns nil if the casting unit (or its controller) has no unitID.' },
       { name: 'isStealable', type: '1nil', description: '1 if the aura can be transferred to a player using the Spellsteal spell; otherwise nil' },
+      { name: 'shouldConsolidate', type: '1nil', description: '1 if the aura is eligible for the \'consolidated\' aura display in the default UI.' },
+      { name: 'spellID', type: 'number', description: 'spellID of the aura' },
     ],
     examples: [
-      { title: 'Basic Usage', code: `local name, rank, icon, count, dispelType, duration, expires, caster, isStealable = UnitBuff("player", 1, "MyAddon", "rank", filter)
-print("name:", name, "rank:", rank, "icon:", icon, "count:", count, "dispelType:", dispelType, "duration:", duration, "expires:", expires, "caster:", caster, "isStealable:", isStealable)`, language: 'lua' },
+      { title: 'Basic Usage', code: `local name, rank, icon, count, dispelType, duration, expires, caster, isStealable, shouldConsolidate, spellID = UnitBuff("player", 1, "MyAddon", "rank", filter)
+print("name:", name, "rank:", rank, "icon:", icon, "count:", count, "dispelType:", dispelType, "duration:", duration, "expires:", expires, "caster:", caster, "isStealable:", isStealable, "shouldConsolidate:", shouldConsolidate, "spellID:", spellID)`, language: 'lua' },
     ],
     tags: [],
     category: 'Buff functions',
@@ -46781,7 +46783,7 @@ print("minDamage:", minDamage, "maxDamage:", maxDamage, "minOffHandDamage:", min
   {
     name: 'UnitDebuff',
     description: 'Returns information about a debuff on a unit. name, rank, icon, count, dispelType, duration, expires, caster, i UnitDebuff(“unit“, “name“ [, “rank“ [, “filter“]]) This function is an alias for UnitAura() with a built-in HARMFUL filter (which HELPFUL filter). cannot be removed or negated with the',
-    signature: 'name, rank, icon, count, dispelType, duration, expires, caster, isStealable = UnitDebuff("unit", index [, "filter"]) or UnitDebuff("unit", "name" [, "rank" [, "filter"]])',
+    signature: 'name, rank, icon, count, dispelType, duration, expires, caster, isStealable, shouldConsolidate, spellID = UnitDebuff("unit", index [, "filter"]) or UnitDebuff("unit", "name" [, "rank" [, "filter"]])',
     parameters: [
       { name: 'unit', type: 'string', description: 'A unit to query', optional: false },
       { name: 'index', type: 'number', description: 'Index of an aura to query', optional: false },
@@ -46799,10 +46801,12 @@ print("minDamage:", minDamage, "maxDamage:", maxDamage, "minOffHandDamage:", min
       { name: 'expires', type: 'number', description: 'Time at which the aura will expire; can be compared to GetTime() to determine time remaining' },
       { name: 'caster', type: 'string', description: 'Unit which applied the aura. If the aura was applied by a unit that does not have a token but is controlled by one that does (e.g. a totem or another player’s vehicle), returns the controlling unit. Returns nil if the casting unit (or its controller) has no unitID.' },
       { name: 'isStealable', type: '1nil', description: '1 if the aura can be transferred to a player using the Spellsteal spell; otherwise nil' },
+      { name: 'shouldConsolidate', type: '1nil', description: '1 if the aura is eligible for the \'consolidated\' aura display in the default UI.' },
+      { name: 'spellID', type: 'number', description: 'spellID of the aura' },
     ],
     examples: [
-      { title: 'Basic Usage', code: `local name, rank, icon, count, dispelType, duration, expires, caster, isStealable = UnitDebuff("player", 1, "MyAddon", "rank", filter)
-print("name:", name, "rank:", rank, "icon:", icon, "count:", count, "dispelType:", dispelType, "duration:", duration, "expires:", expires, "caster:", caster, "isStealable:", isStealable)`, language: 'lua' },
+      { title: 'Basic Usage', code: `local name, rank, icon, count, dispelType, duration, expires, caster, isStealable, shouldConsolidate, spellID = UnitDebuff("player", 1, "MyAddon", "rank", filter)
+print("name:", name, "rank:", rank, "icon:", icon, "count:", count, "dispelType:", dispelType, "duration:", duration, "expires:", expires, "caster:", caster, "isStealable:", isStealable, "shouldConsolidate:", shouldConsolidate, "spellID:", spellID)`, language: 'lua' },
     ],
     tags: [],
     category: 'Buff functions',
