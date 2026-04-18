@@ -9,9 +9,10 @@ import { WIDGETS } from '../../data/widgets.ts'
 import { DATA_TYPES } from '../../data/data-types.ts'
 import { CVARS } from '../../data/cvars.ts'
 import { SECURE_TEMPLATES } from '../../data/secure-templates.ts'
+import { DBCS } from '../../data/dbcs.ts'
 
 interface SearchResult {
-  type: 'api' | 'event' | 'widget' | 'method' | 'datatype' | 'cvar' | 'secure'
+  type: 'api' | 'event' | 'widget' | 'method' | 'datatype' | 'cvar' | 'secure' | 'dbc'
   name: string
   desc: string
   protected: boolean
@@ -40,42 +41,70 @@ export const GlobalSearch = ({ open, onClose }: GlobalSearchProps): ReactNode =>
   const results = useMemo((): SearchResult[] => {
     if (query.length < 2) return []
     const q = query.toLowerCase()
-    const funcs = API_FUNCTIONS
-      .filter((f) => f.name.toLowerCase().includes(q) || f.description.toLowerCase().includes(q))
+    // Term-based match: split on whitespace / dots / slashes so "spell dbc" matches "Spell.dbc"
+    const terms = q.split(/[\s.\\/]+/).filter(Boolean)
+    const matchAll = (text: string): boolean => {
+      const t = text.toLowerCase()
+      return terms.every((term) => t.includes(term))
+    }
+    // Relevance rank on name: exact > starts-with > terms-exact > contains.
+    //   Used both to pre-rank within a category (so the most relevant N survive
+    //   the slice) and to globally re-rank across categories at the end.
+    const nameRank = (name: string): number => {
+      const n = name.toLowerCase()
+      if (n === q) return 0
+      if (n.startsWith(q)) return 1
+      if (terms.some((t) => n === t)) return 2
+      return 3
+    }
+    const sortByRank = <T extends { name: string }>(arr: T[]): T[] =>
+      arr
+        .map((x, i) => ({ x, i, r: nameRank(x.name) }))
+        .sort((a, b) => a.r - b.r || a.i - b.i)
+        .map((e) => e.x)
+
+    const funcs = sortByRank(API_FUNCTIONS.filter((f) => matchAll(`${f.name} ${f.description}`)))
       .slice(0, 12)
       .map((f) => ({ type: 'api' as const, name: f.name, desc: f.description, protected: f.tags.includes('protected') }))
-    const events = EVENTS
-      .filter((e) => e.name.toLowerCase().includes(q) || e.description.toLowerCase().includes(q))
+    const events = sortByRank(EVENTS.filter((e) => matchAll(`${e.name} ${e.description}`)))
       .slice(0, 6)
       .map((e) => ({ type: 'event' as const, name: e.name, desc: e.description, protected: false }))
-    const widgets = WIDGETS
-      .filter((w) => w.name.toLowerCase().includes(q) || w.description.toLowerCase().includes(q))
+    const widgets = sortByRank(WIDGETS.filter((w) => matchAll(`${w.name} ${w.description}`)))
       .slice(0, 4)
       .map((w) => ({ type: 'widget' as const, name: w.name, desc: w.description, protected: false }))
-    const methods = WIDGETS.flatMap((w) =>
-      w.methods
-        .filter((m) => {
-          const short = m.name.match(/:(\w+)/)?.[1] ?? m.name
-          return short.toLowerCase().includes(q)
-        })
-        .map((m) => {
-          const short = m.name.match(/:(\w+)/)?.[1] ?? m.name
-          return { type: 'method' as const, name: `${w.name}:${short}`, desc: m.description, protected: false }
-        }),
-    ).slice(0, 6)
-    const dataTypes = DATA_TYPES
-      .filter((t) => t.name.toLowerCase().includes(q) || t.description.toLowerCase().includes(q))
+    const methods = sortByRank(
+      WIDGETS.flatMap((w) =>
+        w.methods
+          .filter((m) => {
+            const short = m.name.match(/:(\w+)/)?.[1] ?? m.name
+            return matchAll(short)
+          })
+          .map((m) => {
+            const short = m.name.match(/:(\w+)/)?.[1] ?? m.name
+            return { name: `${w.name}:${short}`, desc: m.description }
+          }),
+      ),
+    )
+      .slice(0, 6)
+      .map((m) => ({ type: 'method' as const, name: m.name, desc: m.desc, protected: false }))
+    const dataTypes = sortByRank(DATA_TYPES.filter((t) => matchAll(`${t.name} ${t.description}`)))
       .slice(0, 4)
       .map((t) => ({ type: 'datatype' as const, name: t.name, desc: t.description, protected: false }))
-    const cvars = CVARS
-      .filter((c) => `${c.name} ${c.description} ${c.category}`.toLowerCase().includes(q))
+    const cvars = sortByRank(CVARS.filter((c) => matchAll(`${c.name} ${c.description} ${c.category}`)))
       .slice(0, 4)
       .map((c) => ({ type: 'cvar' as const, name: c.name, desc: c.description, protected: false }))
-    const secureTemplates = SECURE_TEMPLATES
-      .filter((s) => s.name.toLowerCase().includes(q) || s.description.toLowerCase().includes(q))
+    const secureTemplates = sortByRank(SECURE_TEMPLATES.filter((s) => matchAll(`${s.name} ${s.description}`)))
       .slice(0, 4)
       .map((s) => ({ type: 'secure' as const, name: s.name, desc: s.description, protected: false }))
-    return [...funcs, ...events, ...widgets, ...methods, ...dataTypes, ...cvars, ...secureTemplates]
+    const dbcs = sortByRank(DBCS.filter((d) => matchAll(`${d.name} ${d.filename} ${d.description}`)))
+      .slice(0, 8)
+      .map((d) => ({ type: 'dbc' as const, name: d.name, desc: d.description || d.filename, protected: false }))
+
+    const merged = [...funcs, ...events, ...widgets, ...methods, ...dataTypes, ...cvars, ...secureTemplates, ...dbcs]
+    return merged
+      .map((r, i) => ({ r, i, rank: nameRank(r.name) }))
+      .sort((a, b) => a.rank - b.rank || a.i - b.i)
+      .map((e) => e.r)
   }, [query])
 
   const navigateTo = useCallback((type: string, name: string) => {
@@ -89,6 +118,7 @@ export const GlobalSearch = ({ open, onClose }: GlobalSearchProps): ReactNode =>
     else if (type === 'datatype') navigate(`/data-types#${name}`)
     else if (type === 'cvar') navigate(`/cvars`)
     else if (type === 'secure') navigate(`/secure-templates#${name}`)
+    else if (type === 'dbc') navigate(`/dbcs/${name}`)
     onClose()
   }, [navigate, onClose])
 
@@ -145,7 +175,7 @@ export const GlobalSearch = ({ open, onClose }: GlobalSearchProps): ReactNode =>
                 onMouseEnter={() => setSelectedIndex(i)}
               >
                 <ResultType $type={r.type}>
-                  {r.type === 'api' ? 'fn' : r.type === 'event' ? 'event' : r.type === 'widget' || r.type === 'method' ? 'widget' : r.type === 'datatype' ? 'type' : r.type === 'cvar' ? 'cvar' : 'template'}
+                  {r.type === 'api' ? 'fn' : r.type === 'event' ? 'event' : r.type === 'widget' || r.type === 'method' ? 'widget' : r.type === 'datatype' ? 'type' : r.type === 'cvar' ? 'cvar' : r.type === 'dbc' ? 'dbc' : 'template'}
                 </ResultType>
                 <ResultName>{r.name}</ResultName>
                 {r.protected && <ProtectedBadge>Protected</ProtectedBadge>}
@@ -282,6 +312,7 @@ const ResultType = styled.span<{ $type: string }>`
       case 'widget': case 'method': return 'rgba(192, 132, 252, 0.1)'
       case 'datatype': return 'rgba(134, 239, 172, 0.1)'
       case 'cvar': return 'rgba(148, 163, 184, 0.1)'
+      case 'dbc': return 'rgba(251, 191, 36, 0.12)'
       default: return 'rgba(248, 113, 113, 0.1)'
     }
   }};
@@ -292,6 +323,7 @@ const ResultType = styled.span<{ $type: string }>`
       case 'widget': case 'method': return theme.colors.luaType
       case 'datatype': return theme.colors.returnType
       case 'cvar': return theme.colors.textMuted
+      case 'dbc': return theme.colors.textGold
       default: return theme.colors.protected
     }
   }};

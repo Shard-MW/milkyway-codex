@@ -16,6 +16,8 @@ const WidgetDetailPage = lazy(() => import('./features/widgets/pages/WidgetDetai
 const CVarsPage = lazy(() => import('./features/cvars/pages/CVarsPage.tsx'))
 const SecureTemplatesPage = lazy(() => import('./features/secure-templates/pages/SecureTemplatesPage.tsx'))
 const CombatLogPage = lazy(() => import('./features/combat-log/pages/CombatLogPage.tsx'))
+const DbcsListPage = lazy(() => import('./features/dbcs/pages/DbcsListPage.tsx'))
+const DbcDetailPage = lazy(() => import('./features/dbcs/pages/DbcDetailPage.tsx'))
 const BookPage = lazy(() => import('./features/book/pages/BookPage.tsx'))
 const ContributePage = lazy(() => import('./features/contribute/pages/ContributePage.tsx'))
 
@@ -38,6 +40,8 @@ export const App = (): ReactNode => {
               <Route path="cvars" element={<CVarsPage />} />
               <Route path="secure-templates" element={<SecureTemplatesPage />} />
               <Route path="combat-log" element={<CombatLogPage />} />
+              <Route path="dbcs" element={<DbcsListPage />} />
+              <Route path="dbcs/:dbcName" element={<DbcDetailPage />} />
               <Route path="book" element={<BookPage />} />
               <Route path="contribute" element={<ContributePage />} />
             </Route>

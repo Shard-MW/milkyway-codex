@@ -11,6 +11,7 @@ import {
   Terminal,
   Shield,
   Swords,
+  Table,
   BookOpen,
   Globe,
   ExternalLink,
@@ -51,6 +52,7 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { to: '/data-types', icon: Database, label: 'Data Types' },
       { to: '/combat-log', icon: Swords, label: 'Combat Log' },
+      { to: '/dbcs', icon: Table, label: 'DBCs' },
       { to: '/secure-templates', icon: Shield, label: 'Secure Templates' },
       { to: '/cvars', icon: Terminal, label: 'CVars' },
     ],
