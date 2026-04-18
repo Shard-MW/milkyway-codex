@@ -4,6 +4,8 @@ An open-source documentation webapp for the **World of Warcraft 3.3.5a** (Wrath 
 
 **Live site:** [https://milkyway-codex.vercel.app/](https://milkyway-codex.vercel.app/)
 
+**MCP server:** [https://github.com/suprsokr/milkyway-codex-mcp](https://github.com/suprsokr/milkyway-codex-mcp)
+
 Built to give addon developers and modders a fast, searchable, and always-available reference — no more digging through outdated wikis or broken archive links.
 
 ## Features
