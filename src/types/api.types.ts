@@ -67,6 +67,9 @@ export interface WidgetMethod {
   description: string
   parameters: ApiParameter[]
   returns: ApiReturn[]
+  behavior?: string[]
+  caveats?: string[]
+  example?: CodeExample
 }
 
 export interface WidgetScriptHandler {

@@ -27,6 +27,7 @@ interface NavItem {
   icon: typeof Home
   label: string
   external?: boolean
+  badge?: string
 }
 
 interface NavSection {
@@ -52,7 +53,7 @@ const NAV_SECTIONS: NavSection[] = [
     items: [
       { to: '/data-types', icon: Database, label: 'Data Types' },
       { to: '/combat-log', icon: Swords, label: 'Combat Log' },
-      { to: '/dbcs', icon: Table, label: 'DBCs' },
+      { to: '/dbcs', icon: Table, label: 'DBCs', badge: 'WIP' },
       { to: '/secure-templates', icon: Shield, label: 'Secure Templates' },
       { to: '/cvars', icon: Terminal, label: 'CVars' },
     ],
@@ -99,7 +100,7 @@ export const Sidebar = ({ onNavigate }: SidebarProps): ReactNode => {
             {i > 0 && !section.title && <Divider />}
             {section.title && <SectionTitle>{section.title}</SectionTitle>}
             <NavList>
-              {section.items.map(({ to, icon: Icon, label, external }) => (
+              {section.items.map(({ to, icon: Icon, label, external, badge }) => (
                 <NavListItem key={to}>
                   {external ? (
                     <StyledExternalLink href={to} target="_blank" rel="noopener noreferrer">
@@ -111,6 +112,7 @@ export const Sidebar = ({ onNavigate }: SidebarProps): ReactNode => {
                     <StyledNavLink to={to} end={to === '/'} onClick={onNavigate}>
                       <Icon size={16} />
                       <span>{label}</span>
+                      {badge && <NavBadge>{badge}</NavBadge>}
                     </StyledNavLink>
                   )}
                 </NavListItem>
@@ -233,6 +235,19 @@ const StyledNavLink = styled(NavLink)`
     border-left: 3px solid ${theme.colors.primary};
     padding-left: 9px;
   }
+`
+
+const NavBadge = styled.span`
+  margin-left: auto;
+  font-family: ${theme.fonts.code};
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  padding: 1px 6px;
+  border-radius: ${theme.radius.sm};
+  background: rgba(245, 158, 11, 0.12);
+  color: ${theme.colors.accent};
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  text-transform: uppercase;
 `
 
 const StyledExternalLink = styled.a`

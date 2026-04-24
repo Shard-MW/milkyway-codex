@@ -22,6 +22,7 @@ import {
 } from '../../../components/shared/DetailPage.tsx'
 import { DataTable, NameCell, TypeCell } from '../../../components/shared/DataTable.tsx'
 import { TypeLink } from '../../../components/shared/TypeLink.tsx'
+import { CodeBlock } from '../../../components/shared/CodeBlock.tsx'
 import type { WidgetMethod } from '../../../types/api.types.ts'
 
 const WidgetDetailPage = (): ReactNode => {
@@ -209,7 +210,10 @@ const MethodCard = ({
 }): ReactNode => {
   const hasDetails =
     (method.parameters && method.parameters.length > 0) ||
-    (method.returns && method.returns.length > 0)
+    (method.returns && method.returns.length > 0) ||
+    (method.behavior && method.behavior.length > 0) ||
+    (method.caveats && method.caveats.length > 0) ||
+    !!method.example
 
   // Extract just the method name from the full signature for display
   // e.g., "duration = Alpha:GetDuration()" -> "GetDuration"
@@ -289,6 +293,39 @@ const MethodCard = ({
                   ))}
                 </tbody>
               </DataTable>
+            </MethodSection>
+          )}
+
+          {method.behavior && method.behavior.length > 0 && (
+            <MethodSection>
+              <MethodSectionTitle>Behavior</MethodSectionTitle>
+              <Prose>
+                {method.behavior.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </Prose>
+            </MethodSection>
+          )}
+
+          {method.caveats && method.caveats.length > 0 && (
+            <MethodSection>
+              <MethodSectionTitle>Caveats</MethodSectionTitle>
+              <Prose as="ul">
+                {method.caveats.map((c, i) => (
+                  <li key={i}>{c}</li>
+                ))}
+              </Prose>
+            </MethodSection>
+          )}
+
+          {method.example && (
+            <MethodSection>
+              <MethodSectionTitle>Example</MethodSectionTitle>
+              <CodeBlock
+                code={method.example.code}
+                language={method.example.language}
+                title={method.example.title}
+              />
             </MethodSection>
           )}
         </MethodDetails>
@@ -433,4 +470,32 @@ const Optional = styled.span`
   color: ${theme.colors.textMuted};
   margin-left: 6px;
   font-style: italic;
+`
+
+const Prose = styled.div`
+  font-size: 13px;
+  line-height: 1.6;
+  color: ${theme.colors.text};
+
+  p {
+    margin: 0 0 8px;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  &ul,
+  ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  li:last-child {
+    margin-bottom: 0;
+  }
 `
