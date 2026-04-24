@@ -485,10 +485,15 @@ const Prose = styled.div`
     margin-bottom: 0;
   }
 
-  &ul,
+  &,
   ul {
     margin: 0;
+  }
+
+  ul,
+  &:is(ul) {
     padding-left: 20px;
+    list-style: disc;
   }
 
   li {
